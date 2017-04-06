@@ -51,9 +51,7 @@ Interactor.prototype = {
     interactor.password = typeof (config.password) === 'string' ? config.password : '';
 
     interactor.records = [];
-    interactor.session = {
-      type: 'tracking'
-    };
+    interactor.session = {};
     interactor.loadTime = new Date();
 
     // Initialize Session
@@ -199,6 +197,7 @@ Interactor.prototype = {
     xhr.open('POST', interactor.endpoint, interactor.async);
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xhr.setRequestHeader('Authorization', 'Basic ' + btoa(interactor.user + ':' + interactor.password));
+    interactor.session.type = 'tracking';
     xhr.send(JSON.stringify(interactor.session));
 
     return interactor;
