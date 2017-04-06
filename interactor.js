@@ -199,7 +199,7 @@ Interactor.prototype = {
     xhr.open('POST', interactor.endpoint, interactor.async);
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xhr.setRequestHeader('Authorization', 'Basic ' + btoa(interactor.user + ':' + interactor.password));
-    xhr.send(interactor.session);
+    xhr.send(JSON.stringify(interactor.session));
 
     return interactor;
   }
