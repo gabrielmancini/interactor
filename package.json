@@ -1,0 +1,87 @@
+{
+  "name": "interactor",
+  "version": "1.0.0",
+  "description": "A simple, light-weight (< 5KB minified), no dependency, front-end website interaction tracker.",
+  "main": "src/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {
+    "brfs": "^1.4.3",
+    "browserify": ">=10 <14",
+    "browserify-istanbul": "^2.0.0",
+    "budo": "^9.4.7",
+    "chai": "^3.5.0",
+    "codecov.io": "^0.1.6",
+    "http-server": "^0.9.0",
+    "istanbul": "^0.4.4",
+    "jquery": "^3.2.1",
+    "karma": "^1.5.0",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.0.0",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.1.1",
+    "karma-mocha-reporter": "^2.0.4",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-sinon-chai": "^1.2.2",
+    "lolex": "^1.5.0",
+    "mocha": "^3.0.2",
+    "phantomjs-prebuilt": "^2.1.7",
+    "requireindex": "^1.1.0",
+    "should": "^11.2.1",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "start": "budo ./src/index.js -l -d ./src",
+    "dev": "http-server ./src",
+    "postinstall": "node node_modules/phantomjs-prebuilt/install.js",
+    "test": "./node_modules/karma/bin/karma start",
+    "twatch": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "codecov": "cat ./coverage/*/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielmancini/interactor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielmancini/interactor/issues"
+  },
+  "homepage": "https://github.com/gabrielmancini/interactor#readme",
+  "browserify": {
+    "transform": [
+      [
+        "brfs",
+        {
+          "ignore": "\\.(json|css)$"
+        }
+      ]
+    ],
+    "outfile": [
+      "./dist/index.js",
+      "./src/index.js"
+    ],
+    "debug": true
+  },
+  "semistandard": {
+    "global": [
+      "emit",
+      "describe",
+      "it",
+      "before",
+      "after",
+      "debugger",
+      "throw",
+      "beforeEach",
+      "afterEach",
+      "Interactor",
+      "XMLHttpRequest",
+      "btoa"
+    ]
+  }
+}
