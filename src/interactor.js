@@ -179,5 +179,4 @@ Interactor.prototype = {
   }
 
 };
-
-module.exports = Interactor;
+if (window && window.module && window.module.exports) module.exports = Interactor;
