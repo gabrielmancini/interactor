@@ -2,7 +2,7 @@
   "name": "interactor",
   "version": "1.0.0",
   "description": "A simple, light-weight (< 5KB minified), no dependency, front-end website interaction tracker.",
-  "main": "src/index.js",
+  "main": "src/interactor.js",
   "directories": {
     "doc": "docs"
   },

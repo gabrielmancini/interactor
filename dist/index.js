@@ -190,8 +190,6 @@ Interactor.prototype = {
 
 };
 
-// if (module && module.exports) {
-//   module.exports = Interactor;
-// }
+module.exports = Interactor;
 
 },{}]},{},[1]);
