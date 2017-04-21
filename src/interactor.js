@@ -25,6 +25,15 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+function getParameterByName (name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 function Interactor (config) {
   var interactor = this;
@@ -34,8 +43,8 @@ function Interactor (config) {
   // Argument Assignment      // Type Checks                                      // Default Values
   interactor.endpoint = typeof (config.endpoint) === 'string' ? config.endpoint : '/interactions';
   interactor.async = typeof (config.async) === 'boolean' ? config.async : true;
-  interactor.debug = typeof (config.debug) === 'boolean' ? config.debug : true;
-  interactor.user = typeof (config.user) === 'string' ? config.user : '';
+  interactor.debug = typeof (config.debug) === 'boolean' ? config.debug : false;
+  interactor.username = typeof (config.username) === 'string' ? config.username : '';
   interactor.password = typeof (config.password) === 'string' ? config.password : '';
 
   interactor.records = [];
@@ -62,7 +71,15 @@ Interactor.prototype = {
     window.EventTarget.prototype.addEventListener = function (eventName, eventHandler) {
       oldAddEventListener.call(this, eventName, function (event) {
         event.stopPropagation();
-        interactor.__addInteraction__(event, 'interaction');
+        if (!(
+            (event instanceof KeyboardEvent) ||
+            (event instanceof FocusEvent) ||
+            (event.type === 'input') ||
+            (event.event === 'readystatechange')
+          )) {
+          if (interactor.debug) console.log('event:\n', event);
+          interactor.__addInteraction__(event, 'interaction');
+        }
         eventHandler(event);
       });
     };
@@ -170,10 +187,16 @@ Interactor.prototype = {
 
     // Post Session Data Serialized as JSON
     xhr.open('POST', interactor.endpoint, interactor.async);
+    xhr.setRequestHeader('Accept', 'application/json; charset=UTF-8');
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(interactor.user + ':' + interactor.password));
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(interactor.username + ':' + interactor.password));
+    var user = getParameterByName('user', window.location.href);
     interactor.session.type = 'tracking';
+    interactor.session.share = [user];
+    interactor.session.owner = interactor.username;
     xhr.send(JSON.stringify(interactor.session));
+    interactor.records = [];
+    interactor.session = {};
 
     return interactor;
   }
