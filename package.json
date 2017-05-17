@@ -29,7 +29,6 @@
     "lolex": "^1.5.0",
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",
-    "phantomjs-prebuilt": "^2.1.7",
     "requireindex": "^1.1.0",
     "should": "^11.2.1",
     "sinon": "^1.17.4",
@@ -43,7 +42,6 @@
     "mkdir": "mkdirp ./dist",
     "browserify": "browserify ./src/index.js -o ./dist/index.js",
     "dev": "http-server ./src",
-    "postinstall": "node node_modules/phantomjs-prebuilt/install.js",
     "test": "./node_modules/karma/bin/karma start",
     "twatch": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
     "codecov": "cat ./coverage/*/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
